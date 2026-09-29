@@ -1,4 +1,4 @@
 .DS_Store
-data/
+local_datasets/
 __pycache__/
 *.pyc

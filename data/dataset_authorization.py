@@ -1,6 +1,7 @@
-import sys
 from huggingface_hub import HfApi, login, get_token
-from huggingface_hub.utils import GatedRepoError, RepositoryNotFoundError, HTTPError
+from huggingface_hub.utils import GatedRepoError, RepositoryNotFoundError, HfHubHTTPError
+from requests.exceptions import HTTPError
+import sys
 
 DATASET_ID = "lmsys/lmsys-chat-1m"
 DATASET_URL = "https://huggingface.co/datasets/lmsys/lmsys-chat-1m"
@@ -26,8 +27,8 @@ def verify_hf_auth_and_access(repo_id: str = DATASET_ID) -> None:
     except (GatedRepoError, RepositoryNotFoundError):
         _show_authorization_warning()
         sys.exit(1)
-    except HTTPError as err:
-        if err.response is not None and err.response.status_code in (401, 403):
+    except (HTTPError, HfHubHTTPError) as err:
+        if hasattr(err, "response") and err.response is not None and err.response.status_code in (401, 403):
             _show_authorization_warning()
             sys.exit(1)
         raise err
