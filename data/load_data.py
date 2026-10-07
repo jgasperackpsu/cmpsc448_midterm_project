@@ -16,3 +16,10 @@ os.makedirs(output_dir, exist_ok=True)
 ds.save_to_disk(output_dir)
 
 print(f"Successfully saved dataset to directory {output_dir}")
+
+# Rename files
+for i in range(6):
+    old_name = f"train/data-{i:05d}-of-00006.arrow"
+    new_name = f"train/train_{i+1}.arrow"
+    os.rename(os.path.join(output_dir, old_name), os.path.join(output_dir, new_name))
+    
