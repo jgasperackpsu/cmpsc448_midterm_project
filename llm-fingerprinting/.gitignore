@@ -1,0 +1,17 @@
+# Raw LMSYS-Chat-1M download (gated dataset - do not redistribute; ~2.5 GB)
+local_datasets/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+*.log
