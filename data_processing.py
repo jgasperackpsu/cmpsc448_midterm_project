@@ -159,3 +159,59 @@ formatted = [
     (row['llm_name'], row['llm_input'], row['llm_output'])
     for i, row in sampled.iterrows()
 ]
+
+###################################################
+################ DATA PREPROCESSING ###############
+###################################################
+
+tokens = [
+    (name, word_tokenize(i.lower()), word_tokenize(o.lower()))
+    for name, i, o in formatted
+]
+
+# Build vocab map
+MAX_SIZE = 10000
+PAD_T = "<PAD>"
+UNK_T = "<UNK>"
+
+all_tokens = []
+for _, i_t, o_t in tokens:
+    all_tokens.extend(i_t)
+    all_tokens.extend(o_t)
+
+most_common = [t for t, _ in Counter(all_tokens).most_common(MAX_SIZE - 2)]
+
+vocab = {PAD_T: 0, UNK_T: 1}
+for i, t in enumerate(most_common, start=2):
+    vocab[t] = i
+
+def tokensToID(tokens, map):
+    return [map.get(token, map[UNK_T]) for token in tokens]
+
+MAX_SEQ = 128
+
+def padTrunc(ids, max_l = MAX_SEQ, pad_id=0):
+    if len(ids) > max_l:
+        return ids[:max_l]
+    else:
+        return ids + [pad_id] * (max_l - len(ids))
+
+processed_samp = []
+for name, i, o in tokens:
+    processed_samp.append({
+        'llm_name': name,
+        'input_ids': padTrunc(tokensToID(i, vocab)),
+        'output_ids': padTrunc(tokensToID(o, vocab))
+    })
+
+train, temp = train_test_split(
+    processed_samp,
+    test_size=0.3,
+    random_state=SEED
+    )
+
+val, test = train_test_split(
+    temp,
+    test_size=0.5,
+    random_state=SEED
+    )
