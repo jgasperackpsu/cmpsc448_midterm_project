@@ -2,4 +2,3 @@
 local_datasets/
 __pycache__/
 *.pyc
-data/

@@ -1,0 +1,2 @@
+model,mode,acc,acc_lo,acc_hi,macro_f1,macro_f1_lo,macro_f1_hi,val_macro_f1,best_epoch,n_params,hp
+RNN,output,0.4,0.29333333333333333,0.5066666666666667,0.395637408568443,0.27890113303661695,0.4924332858161966,0.5373591716808036,3,1526277,"{""lr"": 0.001, ""batch_size"": 32, ""hidden_dim"": 256}"

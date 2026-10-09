@@ -1,0 +1,17 @@
+{
+  "tokenizer": "simple",
+  "max_input_len": 128,
+  "max_output_len": 256,
+  "min_freq": 2,
+  "vocab_size": 49803,
+  "n_rows": 23720,
+  "seed": 42,
+  "label_map": {
+    "Claude": 0,
+    "GPT": 1,
+    "LLaMA-2": 2,
+    "MPT": 3,
+    "PaLM": 4,
+    "Vicuna": 5
+  }
+}

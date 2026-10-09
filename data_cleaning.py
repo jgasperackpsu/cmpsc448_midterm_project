@@ -139,22 +139,25 @@ def categorize_prompt(prompt: str) -> str:
 # Loading and filtering
 # --------------------------------------------------------------------------- #
 def load_raw(raw_dir=RAW_DIR):
-    """Load all Arrow shards regardless of their file names.
-
-    load_data.py renames the shards (train_1.arrow ...), so we read the files
-    directly instead of relying on load_from_disk's state.json.
-    """
-    from datasets import Dataset, concatenate_datasets
+    """Load all Arrow shards regardless of their file names using pyarrow IPC."""
+    import pyarrow.ipc as ipc
 
     # skip cache-*.arrow files that datasets writes next to the shards after .filter()
-    shards = sorted(p for p in glob(str(raw_dir / "train" / "*.arrow"))
+    raw_path = Path(raw_dir)
+    train_dir = raw_path / "train" if (raw_path / "train").exists() else raw_path
+    shards = sorted(p for p in glob(str(train_dir / "*.arrow"))
                     if not Path(p).name.startswith("cache-"))
     if not shards:
         raise FileNotFoundError(
-            f"No .arrow files found in {raw_dir / 'train'}. Run load_data.py first."
+            f"No .arrow files found in {train_dir}. Run load_data.py first."
         )
-    print(f"Loading {len(shards)} Arrow shard(s) from {raw_dir / 'train'}")
-    return concatenate_datasets([Dataset.from_file(p) for p in shards])
+    print(f"Loading {len(shards)} Arrow shard(s) from {train_dir}")
+    dataframes = []
+    for p in shards:
+        with open(p, "rb") as f:
+            reader = ipc.RecordBatchStreamReader(f)
+            dataframes.append(reader.read_all().to_pandas())
+    return pd.concat(dataframes, ignore_index=True)
 
 
 def first_turn(conversation):
@@ -182,22 +185,17 @@ def build_clean_dataset(families, n_per_family, min_output_words=5, seed=SEED,
     rng = np.random.default_rng(seed)
     version_to_family = {v: fam for fam in families for v in FAMILY_MAP[fam]}
 
-    ds = load_raw(raw_dir)
-    print(f"Raw conversations: {len(ds):,}")
+    df = load_raw(raw_dir)
+    print(f"Raw conversations: {len(df):,}")
 
     keep_models = set(version_to_family)
-    ds = ds.filter(
-        lambda models, langs: [m in keep_models and l == "English" for m, l in zip(models, langs)],
-        input_columns=["model", "language"], batched=True,
-    )
-    print(f"English conversations from selected models: {len(ds):,}")
+    mask = df["model"].isin(keep_models)
+    if "language" in df.columns:
+        mask = mask & (df["language"] == "English")
+    df = df[mask].copy()
+    print(f"English conversations from selected models: {len(df):,}")
 
-    cols = ["conversation_id", "model", "conversation"]
-    if "openai_moderation" in ds.column_names:
-        cols.append("openai_moderation")
-    df = ds.select_columns(cols).to_pandas()
-
-    pairs = df["conversation"].apply(lambda c: first_turn(list(c)))
+    pairs = df["conversation"].apply(lambda c: first_turn(list(c) if c is not None else []))
     df["LLM_input"] = pairs.str[0]
     df["LLM_output"] = pairs.str[1]
     if "openai_moderation" in df:

@@ -233,7 +233,7 @@ def main():
     p.add_argument("--grid", choices=["tiny", "small", "full"], default="small")
     p.add_argument("--epochs", type=int, default=10)
     p.add_argument("--patience", type=int, default=3)
-    p.add_argument("--processed-dir", default=str(RAW_DIR))
+    p.add_argument("--processed-dir", default=str(PROCESSED_DIR))
     args = p.parse_args()
 
     data = load_processed(args.mode, args.processed_dir)

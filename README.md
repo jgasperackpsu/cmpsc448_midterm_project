@@ -1,20 +1,20 @@
 # Fingerprinting LLM Families from Their Text
 
-**DS340W · Penn State · Fall 2026 — midterm project**
+**CMPSC 448 · Penn State · Fall 2026 — midterm project**
 
-Can a small neural classifier tell *which family of large language model* wrote a
-response, once the model's self-identification has been removed? We build balanced
+Can a small neural classifier tell which *family* of large language model generated a
+response without self-identification response hints? We constructed balanced
 prompt/response datasets for six LLM families from
-[LMSYS-Chat-1M](https://huggingface.co/datasets/lmsys/lmsys-chat-1m), train a
-multi-kernel **TextCNN** and a **bidirectional LSTM** on them, and use the two models to
+[LMSYS-Chat-1M](https://huggingface.co/datasets/lmsys/lmsys-chat-1m), trained a
+multi-kernel **TextCNN** and a **bidirectional LSTM** on them, and used the two models to
 answer four research questions.
 
-| | Research question | Status |
-|---|---|---|
-| **RQ1** | How detectable is model identity from the **response alone**? | required |
-| **RQ2** | Do **prompts** leak model identity, and does adding the prompt to the response improve classification? | required |
-| **RQ3** | Do classifiers learn model-wide fingerprints or **domain-specific** patterns? (train on one task category, test zero-shot on others) | extra credit |
-| **RQ4** | Is the signal mainly **structural** (markdown formatting) or **linguistic**? | extra credit |
+| | Research question |
+|---|---|
+| **RQ1** | How detectable is model identity from the **response alone**? |
+| **RQ2** | Do **prompts** leak model identity, and does adding the prompt to the response improve classification? |
+| **RQ3** | Do classifiers learn model-wide fingerprints or **domain-specific** patterns? (train on one task category, test zero-shot on others) |
+| **RQ4** | Is the signal mainly **structural** (markdown formatting) or **linguistic**? |
 
 The full write-up is in [`report/REPORT.md`](report/REPORT.md); the auto-generated results
 table is in [`results/results_summary.md`](results/results_summary.md).
