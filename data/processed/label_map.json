@@ -1,0 +1,8 @@
+{
+  "GPT": 0,
+  "Claude": 1,
+  "LLaMA-2": 2,
+  "Vicuna": 3,
+  "PaLM": 4,
+  "MPT": 5
+}
