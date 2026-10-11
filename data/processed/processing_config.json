@@ -1,17 +1,30 @@
 {
-  "tokenizer": "simple",
+  "n_rows": 23720,
+  "split_sizes": {
+    "train": 16604,
+    "val": 3558,
+    "test": 3558
+  },
+  "tokenizer": "nltk",
+  "vocab_size": 30000,
   "max_input_len": 128,
   "max_output_len": 256,
   "min_freq": 2,
-  "vocab_size": 49832,
-  "n_rows": 23720,
-  "seed": 42,
-  "label_map": {
-    "Claude": 0,
-    "GPT": 1,
-    "LLaMA-2": 2,
-    "MPT": 3,
-    "PaLM": 4,
-    "Vicuna": 5
-  }
+  "input_len_percentiles": {
+    "50": 18.0,
+    "75": 59.0,
+    "90": 229.0,
+    "95": 343.0499999999993,
+    "99": 514.0
+  },
+  "output_len_percentiles": {
+    "50": 168.0,
+    "75": 288.0,
+    "90": 381.0,
+    "95": 425.0,
+    "99": 550.8100000000013
+  },
+  "pct_inputs_truncated": 0.1511804384485666,
+  "pct_outputs_truncated": 0.31467116357504216,
+  "val_output_oov_rate": 0.03755678429697911
 }

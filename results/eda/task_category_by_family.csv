@@ -1,0 +1,5 @@
+task_category,GPT,Claude,LLaMA-2,Vicuna,PaLM,MPT
+coding,502,625,692,823,467,682
+creative,345,280,309,243,326,308
+general,2904,2890,2792,2718,2681,2699
+math,249,205,207,216,246,311
