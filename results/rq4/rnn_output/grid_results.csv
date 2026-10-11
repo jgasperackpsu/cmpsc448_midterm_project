@@ -1,0 +1,2 @@
+lr,batch_size,hidden_dim,best_epoch,val_acc,val_macro_f1,val_loss,n_params
+0.001,32,256,5,0.5905002810567734,0.5914482684453142,1.2067310245872014,7168390

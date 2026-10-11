@@ -1,0 +1,25 @@
+{
+  "chance_accuracy": 0.2,
+  "CNN": {
+    "input_only_acc": 0.18666666666666668,
+    "input_only_vs_chance_p": 0.6585979102626696,
+    "both_minus_output_acc": -0.053333333333333344,
+    "both_minus_output_macro_f1": -0.0685201853975792,
+    "mcnemar_output_vs_both": {
+      "a_only_correct": 15,
+      "b_only_correct": 11,
+      "p_value": 0.557197093963623
+    }
+  },
+  "RNN": {
+    "input_only_acc": 0.18666666666666668,
+    "input_only_vs_chance_p": 0.6585979102626696,
+    "both_minus_output_acc": -0.12,
+    "both_minus_output_macro_f1": -0.12404802234491041,
+    "mcnemar_output_vs_both": {
+      "a_only_correct": 21,
+      "b_only_correct": 12,
+      "p_value": 0.16275565745308995
+    }
+  }
+}

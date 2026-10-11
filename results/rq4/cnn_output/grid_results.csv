@@ -1,0 +1,2 @@
+lr,batch_size,kernel_sizes,best_epoch,val_acc,val_macro_f1,val_loss,n_params
+0.0003,32,"(2, 3, 4, 5)",10,0.6247892074198989,0.6240194059076002,0.9421155308658585,6556790
